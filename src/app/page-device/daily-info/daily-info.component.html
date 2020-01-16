@@ -1,0 +1,52 @@
+<mat-sidenav-container *ngIf="infoReports">
+  <mat-sidenav mode="side" opened>
+    <mat-form-field class=" pt-3 px-2" (click)="picker.open()">
+      <input matInput [matDatepickerFilter]="filterDate.bind(this)" [(ngModel)]="targetDate"
+             [matDatepicker]="picker" placeholder="Date" disabled>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+    </mat-form-field>
+    <mat-nav-list class="pt-0">
+      <a [class.active]="activePath === 'summary'" mat-list-item routerLink="summary" [state]="navState">Summary</a>
+      <mat-divider></mat-divider>
+      <a [class.active]="activePath === 'wan'" mat-list-item routerLink="wan" [state]="navState">WAN</a>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="lanPorts?.length">
+        <mat-list-item (click)="openedLan = !openedLan">LAN</mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-nav-list class="sub-list" [hidden]="!openedLan">
+          <ng-container *ngFor="let port of lanPorts; let last = last">
+            <a [class.active]="activePath === 'lan' && activePathParams.port === port" mat-list-item [routerLink]="['lan', port]" [state]="navState">{{port}}</a>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </mat-nav-list>
+        <mat-divider [hidden]="!openedLan"></mat-divider>
+      </ng-container>
+      <mat-list-item (click)="openedWifi = !openedWifi">Wi-Fi</mat-list-item>
+      <mat-divider></mat-divider>
+      <ng-container *ngIf="wifiFreqList?.length">
+        <mat-nav-list class="sub-list" [hidden]="!openedWifi">
+          <ng-container *ngFor="let freq of wifiFreqList; let last = last">
+            <a [class.active]="activePath === 'wifi' && activePathParams.freq === freq" mat-list-item [routerLink]="['wifi', freq]" [state]="navState">{{freq}}</a>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </mat-nav-list>
+        <mat-divider [hidden]="!openedWifi"></mat-divider>
+      </ng-container>
+      <a [class.active]="activePath === 'system'" mat-list-item routerLink="system" [state]="navState">System</a>
+      <mat-divider></mat-divider>
+      <a [class.active]="activePath === 'events'" mat-list-item routerLink="events" [state]="navState">Events</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="mt-3" *ngIf="isLoading">
+      <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+    </div>
+    <div class="container my-3 ml-0 mr-auto">
+      <router-outlet *ngIf="!isLoading"></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<div class="mt-3" *ngIf="!infoReports">
+  <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+</div>

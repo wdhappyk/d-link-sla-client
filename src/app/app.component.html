@@ -1,0 +1,6 @@
+<ngx-loading-bar color="#fff" [includeSpinner]="false"></ngx-loading-bar>
+<app-nav-bar></app-nav-bar>
+<p class="text-center my-5 text-secondary" *ngIf="isLoading || isTrySignIn">
+  Please wait...
+</p>
+<router-outlet *ngIf="!isLoading && !isTrySignIn"></router-outlet>

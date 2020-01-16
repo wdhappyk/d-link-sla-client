@@ -1,0 +1,10 @@
+<canvas baseChart
+        [data]="chartCounts"
+        [labels]="chartLabels"
+        [chartType]="chartType"
+        [options]="chartOptions"
+        [plugins]="chartPlugins"
+        [colors]="chartColors"
+        [legend]="chartLegend"
+        (chartClick)="handleClick($event)"
+></canvas>

@@ -1,0 +1,49 @@
+<div class="container">
+  <mat-card class="my-3">
+    <mat-card-header class="card-header-with-action">
+      <mat-card-title>Logs from device {{mac}}</mat-card-title>
+      <button class="card-title-action" mat-icon-button (click)="updateData()">
+        <mat-icon>update</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="pt-3">
+        <ng-container *ngIf="activeDayList?.length">
+          <mat-form-field class="mr-2" (click)="picker.open()">
+            <input matInput [matDatepickerFilter]="filterDate.bind(this)" [(ngModel)]="targetDate"
+                   [matDatepicker]="picker" placeholder="Date" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button (click)="getTimestampList()"
+                  class="mr-2" color="primary" [disabled]="isLoadTimestamps">
+            Find Logs
+          </button>
+          <button mat-raised-button class="mr-2" color="primary"
+                  [routerLink]="['/', 'device', mac, 'daily', formattedTargetDate, 'summary']">
+            Get Daily Info
+          </button>
+          <ng-container *ngIf="timestamps || isLoadTimestamps">
+            <mat-divider></mat-divider>
+            <div class="pt-3">
+              <h6 class="mb-3">Logs list for {{timestampsDate | date}}</h6>
+              <mat-chip-list *ngIf="timestamps?.length">
+                <a mat-chip [routerLink]="['/', 'device', mac, 'info', timestamp.valueOf()]"
+                   *ngFor="let timestamp of timestamps">
+                  {{timestamp | time}}
+                </a>
+              </mat-chip-list>
+              <mat-spinner diameter="30" *ngIf="isLoadTimestamps"></mat-spinner>
+              <p *ngIf="timestamps?.length === 0">Empty.</p>
+            </div>
+          </ng-container>
+        </ng-container>
+        <mat-spinner *ngIf="!activeDayList" diameter="30"></mat-spinner>
+        <p *ngIf="activeDayList?.length === 0">
+          Device has not active days.
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

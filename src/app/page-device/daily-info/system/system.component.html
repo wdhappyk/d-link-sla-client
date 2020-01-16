@@ -1,0 +1,20 @@
+<ng-container *ngIf="timestamps">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>CPU Utilization</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h6>Timestamps</h6>
+      <p *ngIf="timestamps.length === 0" class="mt-3">Nothing.</p>
+      <mat-chip-list *ngIf="timestamps.length" class="pt-0">
+        <a mat-chip *ngFor="let timestamp of timestamps; let last = last"
+           [routerLink]="['/', 'device', mac, 'info', timestamp]">
+          {{timestamp | dateFormat:'HH:mm'}}
+        </a>
+      </mat-chip-list>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+<div class="mt-3" *ngIf="!timestamps">
+  <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+</div>

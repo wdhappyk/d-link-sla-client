@@ -1,0 +1,11 @@
+<span>{{label}}:</span>
+<span *ngIf="!noValue">
+  {{value}}
+  <span class="text-secondary" *ngIf="unit">
+    {{unit}}
+  </span>
+  <span *ngIf="diff && diff !== value" [class.text-danger]="diff < 0" [class.text-success]="diff > 0">
+    ({{diff | sign}})
+  </span>
+</span>
+<ng-content *ngIf="!value"></ng-content>

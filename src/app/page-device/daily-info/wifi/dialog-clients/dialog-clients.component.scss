@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.table-wrapper {
+  overflow: auto;
+  max-height: 50vh;
+  position: relative;
+}
+
+th:last-child {
+  width: 1px;
+}

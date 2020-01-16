@@ -1,0 +1,59 @@
+@mixin set-grid($param, $start, $end) {
+  grid-#{$param}-start: $start;
+  grid-#{$param}-end: $end;
+}
+
+@mixin set-column($start, $end) {
+  @include set-grid('column', $start, $end);
+}
+
+@mixin set-row($start, $end) {
+  @include set-grid('row', $start, $end);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f8f8f8;
+}
+
+mat-card {
+  mat-card-header.card-header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .card-title-action {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.hidden-datepicker-container {
+  position: relative;
+
+  .hidden-datepicker {
+    visibility: hidden;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.data-list {
+  > * {
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+

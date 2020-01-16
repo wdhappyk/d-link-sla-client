@@ -1,0 +1,12 @@
+mat-chip-list {
+  a {
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+}
+
+input:disabled {
+  color: inherit;
+}

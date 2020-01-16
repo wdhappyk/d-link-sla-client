@@ -1,0 +1,67 @@
+<ng-container *ngIf="reports">
+  <app-info-card title="Summary">
+    <div class="data-list">
+      <app-info-row label="IP" [value]="info?.syslogHeader.host"></app-info-row>
+      <app-info-row label="Mac" [noValue]="true">
+        <a [routerLink]="['/', 'device', info?.mac, 'log-list']">{{info?.mac}}</a>
+      </app-info-row>
+      <app-info-row label="Serial" [value]="info?.serial || '-'"></app-info-row>
+      <app-info-row label="Model" [value]="info?.firmware?.model"></app-info-row>
+      <app-info-row label="Firmware version" [value]="info?.firmware?.version"></app-info-row>
+      <app-info-row label="Date" [value]="date | dateFormat:dateFormat"></app-info-row>
+      <app-info-row label="Last report date" [value]="lastActiveDay | dateFormat:dateFormat"></app-info-row>
+      <app-info-row label="Last log" [noValue]="true">
+        <a [routerLink]="['/', 'device', info?.mac, 'info', lastInfo?.timestamp]">
+          {{lastInfo?.timestamp | dateFormat:'HH:mm:ss DD-MM-YYYY'}}
+        </a>
+      </app-info-row>
+    </div>
+  </app-info-card>
+  <mat-card class="mt-3">
+    <mat-card-header>
+      <mat-card-title>WAN Workload</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="grid-wan">
+        <div class="grid-cell">
+          <app-workload-chart [data]="workloadWan" [timestamps]="workloadTimestamps"></app-workload-chart>
+        </div>
+        <div class="grid-cell">
+          <h6>Errors Packets</h6>
+          <div class="data-list">
+            <app-info-row label="CRC" [value]="lastInfo?.wan?.crc"
+                          [class.text-danger]="lastInfo?.wan?.crc"></app-info-row>
+            <app-info-row label="DROP" [value]="lastInfo?.wan?.drop"
+                          [class.text-danger]="lastInfo?.wan?.drop"></app-info-row>
+            <app-info-row label="64bytes" [value]="lastInfo?.wan && lastInfo?.wan['64bytes']"
+                          [class.text-danger]="lastInfo?.wan && lastInfo?.wan['64bytes']"></app-info-row>
+            <app-info-row label="Link down" [value]="lastInfo?.wan?.link_down"
+                          [class.text-danger]="lastInfo?.wan?.link_down"></app-info-row>
+            <app-info-row label="Fragments" [value]="lastInfo?.wan?.fragments"
+                          [class.text-danger]="lastInfo?.wan?.fragments"></app-info-row>
+          </div>
+          <h6 class="mt-3">Traffic</h6>
+          <div class="data-list">
+            <app-info-row label="Tx/Rx (Packets)" [noValue]="true">
+              {{calcPackets(lastInfo?.wan.snd)}} / {{calcPackets(lastInfo?.wan.link_down)}}
+            </app-info-row>
+            <app-info-row label="Tx/Rx (Bytes)" [noValue]="true">
+              {{calcBytes(lastInfo?.wan.snd_bytes_diff)}} / {{calcBytes(lastInfo?.wan.rcv_bytes_diff)}}
+            </app-info-row>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-3">
+    <mat-card-header>
+      <mat-card-title>Wi-Fi Noise</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-wifi-noise-chart [wifi]="info?.wifi" class="mr-3"></app-wifi-noise-chart>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+<div class="mt-3" *ngIf="!reports">
+  <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+</div>

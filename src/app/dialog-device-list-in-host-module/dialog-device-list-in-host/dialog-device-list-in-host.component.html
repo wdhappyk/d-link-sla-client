@@ -1,0 +1,18 @@
+<h4 mat-dialog-title>
+  Devices on {{data.host}}
+</h4>
+<div mat-dialog-content class="content">
+  <mat-nav-list *ngIf="macList?.length > 0">
+    <ng-container *ngFor="let mac of macList; let last = last;">
+      <a mat-list-item [routerLink]="['/', 'device', mac, 'log-list']" (click)="onCloseAll()">
+        {{mac}}
+      </a>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+  </mat-nav-list>
+  <p *ngIf="macList?.length === 0">Nothing.</p>
+  <mat-spinner diameter="30" class="mx-auto" *ngIf="!macList"></mat-spinner>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-end py-3">
+  <button mat-button color="primary" (click)="dialogRef.close()">Close</button>
+</div>

@@ -1,0 +1,47 @@
+<h4 mat-dialog-title>
+  Devices on {{data.model}}
+</h4>
+<div mat-dialog-content class="table-wrapper">
+  <table mat-table [dataSource]="data.list" class="w-100">
+    <ng-container matColumnDef="n">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let index = index"> {{index + 1}} </td>
+    </ng-container>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> {{data.host ? 'IP' : 'Mac'}} </th>
+      <td mat-cell *matCellDef="let device"> {{device._id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="64bytes">
+      <th mat-header-cell *matHeaderCellDef> 64bytes (mac) / Date </th>
+      <td mat-cell *matCellDef="let device"> {{device['64bytes'].value}} / {{device['64bytes'].time | dateFormat:dateFormat}} </td>
+    </ng-container>
+    <ng-container matColumnDef="drop">
+      <th mat-header-cell *matHeaderCellDef> DROP (mac) / Date </th>
+      <td mat-cell *matCellDef="let device"> {{device.drop.value}} / {{device.drop.time | dateFormat:dateFormat}} </td>
+    </ng-container>
+    <ng-container matColumnDef="crc">
+      <th mat-header-cell *matHeaderCellDef> CRC (mac) / Date </th>
+      <td mat-cell *matCellDef="let device"> {{device.crc.value}} / {{device.crc.time | dateFormat:dateFormat}} </td>
+    </ng-container>
+    <ng-container matColumnDef="fragments">
+      <th mat-header-cell *matHeaderCellDef> Fragments (mac) / Date </th>
+      <td mat-cell *matCellDef="let device"> {{device.fragments.value}} / {{device.fragments.time | dateFormat:dateFormat}} </td>
+    </ng-container>
+    <ng-container matColumnDef="linkDown">
+      <th mat-header-cell *matHeaderCellDef> Link down (mac) / Date </th>
+      <td mat-cell *matCellDef="let device"> {{device.link_down.value}} / {{device.link_down.time | dateFormat:dateFormat}} </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let device">
+        <a *ngIf="data.host" mat-stroked-button (click)="openDeviceList(device._id)">Devices</a>
+        <a *ngIf="!data.host" mat-stroked-button [routerLink]="['device', device._id, 'log-list']" (click)="onClose()">Log list</a>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-end py-3">
+  <button mat-button color="primary" (click)="dialogRef.close()">Close</button>
+</div>

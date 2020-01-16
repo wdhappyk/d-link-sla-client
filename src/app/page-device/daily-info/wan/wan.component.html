@@ -1,0 +1,83 @@
+<ng-container *ngIf="reports">
+  <mat-card class="mt-3">
+    <mat-card-header>
+      <mat-card-title>Workload</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="grid">
+        <div class="grid-cell">
+          <app-workload-chart [data]="workloadWan" [timestamps]="workloadTimestamps"></app-workload-chart>
+        </div>
+        <div class="grid-cell pl-2">
+          <h6>Traffic</h6>
+          <div class="data-list">
+            <app-info-row label="Workload" [noValue]="true">
+              {{calcWorkload(lastReport?.wan.snd_bytes_diff)}} / {{calcWorkload(lastReport?.wan.rcv_bytes_diff)}}
+            </app-info-row>
+            <app-info-row label="Tx/Rx (Kbytes)" [noValue]="true">
+              {{calcPacketSize(lastReport?.wan.snd_bytes_diff)}} / {{calcPacketSize(lastReport?.wan.rcv_bytes_diff)}}
+            </app-info-row>
+            <app-info-row label="Tx/Rx (Packets)" [noValue]="true">
+              {{lastReport?.wan.snd_bytes_diff}} / {{lastReport?.wan.rcv_bytes_diff}}
+            </app-info-row>
+          </div>
+          <h6 class="mt-3">Casts</h6>
+          <div class="data-list">
+            <app-info-row label="WAN broadcast" [noValue]="true">
+              {{lastReport?.wan?.broadcast.snd}} / {{lastReport?.wan?.broadcast.rcv}}
+            </app-info-row>
+            <app-info-row label="WAN multicast" [noValue]="true">
+              {{lastReport?.wan?.multicast.snd}} / {{lastReport?.wan?.multicast.rcv}}
+            </app-info-row>
+            <app-info-row label="WAN pause frames" [noValue]="true">
+              {{lastReport?.wan?.pause_frames.snd}} / {{lastReport?.wan?.pause_frames.rcv}}
+            </app-info-row>
+            <app-info-row label="WAN unicast" [noValue]="true">
+              {{lastReport?.wan?.unicast.snd}} / {{lastReport?.wan?.unicast.rcv}}
+            </app-info-row>
+          </div>
+          <h6 class="mt-3">NAT</h6>
+          <div class="data-list">
+            <app-info-row label="Peak/Sum" [noValue]="true">
+              {{lastReport?.nat.peak}} / {{lastReport?.nat.sum}}
+            </app-info-row>
+          </div>
+          <h6 class="mt-3">LLDP</h6>
+          <div class="data-list">
+            <app-info-row label="Switch MAC" [value]="lastReport?.lldp?.switch_mac"></app-info-row>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-3">
+    <mat-card-header>
+      <mat-card-title class="text-uppercase">Drop</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="grid">
+        <div class="grid-cell">
+          <app-drop-chart [data]="dropData"></app-drop-chart>
+        </div>
+        <div class="grid-cell">
+          <h6>Error Packets</h6>
+          <div class="data-list">
+            <app-info-row label="64bytes" [value]="lastReport?.wan['64bytes']"
+                          [class.text-danger]="lastReport?.wan['64bytes'] > 0"></app-info-row>
+            <app-info-row label="DROP" [value]="lastReport?.wan.drop"
+                          [class.text-danger]="lastReport?.wan.drop > 0"></app-info-row>
+            <app-info-row label="CRC" [value]="lastReport?.wan.crc"
+                          [class.text-danger]="lastReport?.wan.crc > 0"></app-info-row>
+            <app-info-row label="Fragments" [value]="lastReport?.wan.fragments"
+                          [class.text-danger]="lastReport?.wan.fragments > 0"></app-info-row>
+            <app-info-row label="Link down" [value]="lastReport?.wan.link_down"
+                          [class.text-danger]="lastReport?.wan.link_down > 0"></app-info-row>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+<div class="mt-3" *ngIf="!reports">
+  <mat-spinner diameter="30" class="mx-auto"></mat-spinner>
+</div>

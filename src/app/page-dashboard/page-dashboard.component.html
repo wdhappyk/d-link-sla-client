@@ -1,0 +1,51 @@
+<div class="grid">
+  <div class="grid-cell">
+    <mat-card class="dashboard-card">
+      <mat-card-header class="card-header-with-action">
+        <mat-card-title>Info About Devices</mat-card-title>
+        <button class="card-title-action" mat-icon-button (click)="updateData()">
+          <mat-icon>update</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>Reports during last hour: {{lastHourReportsCount | load}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>Total devices: {{totalDevicesCount | load}}</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="grid-cell">
+    <mat-card class="dashboard-card overflow-auto">
+      <mat-card-header>
+        <mat-card-title>Device List</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="flex-grow-1">
+        <p class="mt-3" *ngIf="!models">Loading...</p>
+        <p class="mt-3" *ngIf="models?.length === 0">Empty</p>
+        <mat-action-list *ngIf="models?.length">
+          <ng-container *ngIf="models?.length">
+            <ng-container *ngFor="let data of models">
+              <mat-divider></mat-divider>
+              <button mat-list-item (click)="openDeviceList(data.model)" class="cursor-pointer">
+                {{data.model}}: {{data.count}}
+              </button>
+            </ng-container>
+          </ng-container>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="grid-cell">
+    <mat-card class="dashboard-card">
+      <mat-card-content class="w-100 h-100">
+        <app-devices-chart *ngIf="models?.length" [models]="models"
+                           (selectDevice)="openDeviceList($event)"></app-devices-chart>
+        <p *ngIf="models?.length === 0">Device list empty</p>
+        <mat-spinner [diameter]="30" *ngIf="!models"></mat-spinner>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

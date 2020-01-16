@@ -1,0 +1,25 @@
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  .grid-cell {
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+.time-box {
+  max-height: 350px;
+  overflow: auto;
+  padding: 4px;
+}
+
+.table-wrapper {
+  overflow: auto;
+  max-height: 500px;
+  position: relative;
+}
+
+th:last-child {
+  width: 1px;
+}

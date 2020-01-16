@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-header class="justify-content-center">
+    <mat-card-title>Sign In</mat-card-title>
+  </mat-card-header>
+  <ng-container *ngIf="system.isAuth">
+    <mat-card-content class="text-center">
+      You're in
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="w-100" mat-raised-button color="primary" routerLink="/">
+        Continue
+      </button>
+    </mat-card-actions>
+  </ng-container>
+  <ng-container *ngIf="!system.isAuth">
+    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+      <mat-card-content class="d-flex flex-column">
+        <mat-form-field>
+          <input type="text" formControlName="username" [errorStateMatcher]="matcher" matInput placeholder="Username">
+          <mat-error>
+            Username is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="password" autocomplete="password" [errorStateMatcher]="matcher"
+                 formControlName="password" matInput="password" placeholder="Password">
+          <mat-error>
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions class="mb-0">
+        <button class="w-100" mat-raised-button color="primary" type="submit" *ngIf="!isLoad">
+          Log In
+        </button>
+        <mat-spinner *ngIf="isLoad" diameter="36" class="mx-auto"></mat-spinner>
+      </mat-card-actions>
+    </form>
+  </ng-container>
+</mat-card>

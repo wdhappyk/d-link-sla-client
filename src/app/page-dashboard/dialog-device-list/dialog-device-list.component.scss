@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+mat-list {
+  max-height: 50vh;
+  min-height: 250px;
+  overflow: auto;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.table-wrapper {
+  overflow: auto;
+  max-height: 50vh;
+  position: relative;
+}
+
+th:last-child {
+  width: 1px;
+}

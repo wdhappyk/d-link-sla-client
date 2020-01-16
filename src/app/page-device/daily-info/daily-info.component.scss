@@ -1,0 +1,24 @@
+@import "../../../styles";
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+mat-sidenav {
+  width: 222px;
+}
+
+.sub-list {
+  padding-top: 0;
+  padding-left: 20px;
+}
+
+mat-nav-list {
+  .active {
+    background-color: rgba(63, 81, 181, 0.2);
+  }
+}
+
+input:disabled {
+  color: inherit;
+}
